@@ -20,4 +20,6 @@ class FutDataService {
     }
 }
 
-export default new FutDataService();
+const futDataService = new FutDataService();
+export default futDataService;
+
