@@ -1,0 +1,35 @@
+#manifest
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {model_names}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {model_names}-server
+  replicas: {replic_release}
+  template:
+    metadata:
+      labels:
+        app: {model_names}-server
+    spec:
+      containers:
+      - name: {model_names}-container
+        #image: gcr.io/tensorflow-serving/resnet 
+        image: docker.io/{docker_user}/{model_names}:{github.sha}
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: {model_names}-service
+  name: {model_names}-service
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: {model_names}-server
+  type: LoadBalancer
