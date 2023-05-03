@@ -1,18 +1,22 @@
 import React, { Component } from "react";
-import FutDataService from "../services/fut.service";
-
-import "firebase/compat/storage";
 import firebase from "firebase/compat/app";
+import FutDataService from "../services/fut.service";
+import "firebase/compat/storage";
+
 export const storage = firebase.storage();
 
 export default class AddTutorial extends Component {
     constructor(props) {
         super(props);
+        this.onChangeName = this.onChangeName.bind(this);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.saveTutorial = this.saveTutorial.bind(this);
         this.newTutorial = this.newTutorial.bind(this);
+        this.onChangefile = this.onChangeFile.bind(this);
+
         this.state = {
+            name :"",
             title: "",
             description: "",
             published: false,
@@ -26,16 +30,14 @@ export default class AddTutorial extends Component {
         console.log(e.target.files[0]);
         this.setState ({
             file: e.target.files[0]
-        })
+        });
     }
 
     handleUpload(e, file) {
         e.preventDefault();
         console.log(file);
         alert(file.name);
-    
         const uploadTask = storage.ref(`/images/${file.name}`).put(file);
-    
         uploadTask.on("state_changed", console.log, console.error, () =>  {
             storage
                 .ref("images")
@@ -47,13 +49,18 @@ export default class AddTutorial extends Component {
         });
     }
 
+    onChangeName(e) {
+        this.setState({
+            name : e.target.value,
+        });
+    }
+
     onChangeTitle(e) {
         this.setState({
             title: e.target.value,
         });
     }
 
-    
     onChangeDescription(e) {
         this.setState({
             description: e.target.value,
@@ -61,32 +68,38 @@ export default class AddTutorial extends Component {
     }
 
     saveTutorial() {
+        let name = this.state.name;
+
         let data = {
             title: this.state.title,
             description: this.state.description,
             published: false,
-            url: this.state.url
+            url: this.state.url,
         };
-        FutDataService.create(data)
-        .then(() => {
-            console.log("Created new item successfully!");
-            this.setState({
-                submitted: true,
+
+        FutDataService.create(data, name)
+            .then(() => {
+                console.log("Created new item successfully!");
+                this.setState({
+                    submitted: true,
+                });
+            })
+            .catch((e) => {
+                console.log(e);
             });
-        })
-        .catch((e) => {
-            console.log(e);
-        });
     }
 
     newTutorial() {
         this.setState({
+            name: "",
             title: "",
             description: "",
             published: false,
+            url: "",
             submitted: false,
         });
     }
+
     render() { 
         return (
         <div className="submit-form">
@@ -99,6 +112,7 @@ export default class AddTutorial extends Component {
             </div>
             ) : (
             <div>
+
                 <div className="form-group">
                     <label htmlFor="title">Titulo</label>
                     <input
@@ -111,6 +125,7 @@ export default class AddTutorial extends Component {
                     name="title"
                     />
                 </div>
+
                 <div className="form-group">
                     <label htmlFor="description">Descripcion</label>
                     <input
@@ -123,6 +138,7 @@ export default class AddTutorial extends Component {
                     name="description"
                 />
                 </div>
+
                 <div>
                     <form onSubmit={ (event) => {
                         this.handleUpload(event, this.state.file)
@@ -130,10 +146,14 @@ export default class AddTutorial extends Component {
                         <input type="file" onChange={(event)=> { 
                             this.onChangeFile(event) 
                         }}/>
+
                         <button disabled={!this.state.file}>Atualizar firebase</button>
+
                     </form>
                     <img src={this.url} alt="" />
                 </div>
+
+                
                 <button onClick={this.saveTutorial} className="btn btn-success">
                     Subir
                 </button>
