@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import FutDataService from "../services/fut.service";
+import Reactions from './reactions.component';
 
 export default class Tutorial extends Component {
     constructor(props) {

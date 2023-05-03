@@ -1,100 +1,103 @@
 import React, { Component } from "react";
-import FutDataService from "../services/fut.service";
+import HyperDataService from "../services/hyper.services";
+import Hyper from "./hyper.component";
 
-//import fut from "./fut.component";
+export default class HyperList extends Component {
+    constructor(props) {
+        super(props);
+        this.refreshList = this.refreshList.bind(this);
+        this.setActiveTutorial = this.setActiveTutorial.bind(this);
+        this.onDataChange = this.onDataChange.bind(this);
 
-export default class FutList extends Component {
-constructor(props) {
-    super(props);
-    this.refreshList = this.refreshList.bind(this);
-    this.setActiveTutorial = this.setActiveTutorial.bind(this);
-    this.onDataChange = this.onDataChange.bind(this);
+        this.state = {
+            tutorials: [],
+            currentTutorial: null,
+            currentIndex: -1,
+        };
 
-    this.state = {
-    tutorials: [],
-    currentTutorial: null,
-    currentIndex: -1,
-    };
+        this.unsubscribe = undefined;
+    }
 
-    this.unsubscribe = undefined;
-}
+    componentDidMount() {
+        this.unsubscribe = HyperDataService.getAll().orderBy("title", "asc").onSnapshot(this.onDataChange);
+    }
 
-componentDidMount() {
-    this.unsubscribe = FutDataService.getAll().orderBy("title", "asc").onSnapshot(this.onDataChange);
-}
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
 
-componentWillUnmount() {
-    this.unsubscribe();
-}
+    onDataChange(items) {
+        let tutorials = [];
 
-onDataChange(items) {
-    let tutorials = [];
+        items.forEach((item) => {
+            let id = item.id;
+            let data = item.data();
+            tutorials.push({
+                id: id,
+                title: data.title,
+                description: data.description,
+                published: data.published,
+                url: data.url
+            });
+        });
 
-    items.forEach((item) => {
-    let id = item.id;
-    let data = item.data();
-    tutorials.push({
-        id: id,
-        title: data.title,
-        description: data.description,
-        published: data.published,
-    });
-    });
+        this.setState({
+            tutorials: tutorials,
+        });
+    }
 
-    this.setState({
-    tutorials: tutorials,
-    });
-}
+    refreshList() {
+        this.setState({
+            currentTutorial: null,
+            currentIndex: -1,
+        });
+    }
 
-refreshList() {
-    this.setState({
-    currentTutorial: null,
-    currentIndex: -1,
-    });
-}
+    setActiveTutorial(tutorial, index) {
+        this.setState({
+            currentTutorial: tutorial,
+            currentIndex: index,
+        });
+    }
 
-setActiveTutorial(tutorial, index) {
-    this.setState({
-    currentTutorial: tutorial,
-    currentIndex: index,
-    });
-}
 
-render() {
-    const { tutorials, currentTutorial, currentIndex } = this.state;
+    // ...
 
-    return (
-    <div className="list row">
-        <div className="col-md-6">
-        <h4>Tutorials List</h4>
+    render() {
+        const { tutorials, currentTutorial, currentIndex } = this.state;
 
-        <ul className="list-group">
-            {tutorials &&
-            tutorials.map((tutorial, index) => (
-                <li
-                className={ "list-group-item " + (index === currentIndex ? "active" : "") }
-                onClick={() => this.setActiveTutorial(tutorial, index)}
-                key={index}
-                >
-                {tutorial.title}
-                </li>
-            ))}
-        </ul>
-        </div>
-        <div className="col-md-6">
-        {currentTutorial ? (
-            <fut
-            tutorial={currentTutorial}
-            refreshList={this.refreshList}
-            />
-        ) : (
-            <div>
-            <br />
-            <p>Please click on a Tutorial...</p>
+        return (
+            <div className="list-row">
+                <div className="col-md-6 bg-dark mx-auto">
+                    <h4>Lista de Hypercars</h4>
+
+                    <ul className="list-group">
+                        {tutorials &&
+                            tutorials.map((tutorial, index) => (
+                                <li
+                                    className={"list-group-item" + (index === currentIndex ? "active" : "")}
+                                    onClick={() => this.setActiveTutorial(tutorial, index)}
+                                    key={index}
+                                >
+                                    {tutorial.title}
+                                </li>
+                            ))}
+                    </ul>
+                </div>
+                <div className="col-md-6 bg-dark mx-auto" >
+                    {currentTutorial ? (
+                        <Hyper
+                            tutorial={currentTutorial}
+                            refreshList={this.refreshList}
+                        />
+                    ) : (
+                        <div>
+                            <br />
+                            <p>Please click on a Hypercar...</p>
+                        </div>
+                    )}
+                </div>
             </div>
-        )}
-        </div>
-    </div>
-    );
-}
+        );
+    }
 }
