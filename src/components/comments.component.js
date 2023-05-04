@@ -40,7 +40,7 @@ const CommentBox = () => {
                     <button onClick={() => setShowForm(false)}>Cancel</button>
                 </div>
             ) : (
-                <button class="btn btn-primary" onClick={() => setShowForm(true)}>Add a comment</button>
+                <button class="btn btn-primary" onClick={() => setShowForm(true)}>Añadir comentario</button>
             )}
         </div>
     );

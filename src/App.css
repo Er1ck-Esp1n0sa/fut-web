@@ -1,59 +1,111 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.container h2 {
-  text-align: center;
-  margin: 25px auto;
-}
-
-.list {
-  text-align: left;
-  max-width: 750px;
-  margin: auto;
-}
-
 .submit-form {
   max-width: 300px;
   margin: auto;
 }
 
-.edit-form {
-  max-width: 300px;
-  margin:auto;
+.comment {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.comment img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comment-body p {
+  margin: 0;
+}
+
+.comment-actions {
+  display: flex;
+  margin-top: 5px;
+}
+
+.comment-action {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.comment-action span {
+  margin-left: 5px;
+}
+
+.comment-action:hover {
+  text-decoration: underline;
+}
+
+/* Estilos de formulario de comentarios */
+
+.comment-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-form textarea {
+  margin-bottom: 10px;
+  height: 100px;
+  resize: none;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.comment-form button {
+  background-color: #1d49a9;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.comment-form button:hover {
+  background-color: #1ca926;
+}
+
+.form-group {
+  background-color: #077c20;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgb(202, 202, 202);
+  color: rgb(255, 255, 255);
+}
+
+.list-row {
+  background-image: url("img/img2.png");
+  object-fit: contain;
+  background-size:contain;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+}
+
+.list-group-item {
+  background-color: #148f1c;
+  padding: 10px;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+}
+
+h2{
+  line-height: 3;
+  letter-spacing: 12px;
+  font-size: 60px;
+  text-align: center;
+  background-image: url("img/img1.png");
+  background-repeat: no-repeat;
+  background-size:contain;
+  color: #cdd8ce;
+}
+
+body{
+  background-image: url("img/img3.png");
 }

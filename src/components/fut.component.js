@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import FutDataService from "../services/fut.service";
 import Reactions from './reactions.component';
-import CommenBox from './comments.component'
+import CommentBox from './comments.component'
 
 export default class Tutorial extends Component {
     constructor(props) {
@@ -116,12 +116,12 @@ export default class Tutorial extends Component {
 
         return (
         <div>
-            <h4>Futbol yeeee</h4>
+            <h4>-------------------------------------------------------</h4>
             {currentTutorial ? (
             <div className="edit-form">
                 <form>
                     <div className="form-group">
-                        <label htmlFor="title">Title</label>
+                        <label htmlFor="title">Titulo</label>
                         <input
                         type="text"
                         className="form-control"
@@ -131,7 +131,7 @@ export default class Tutorial extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="description">Description</label>
+                        <label htmlFor="description">Descriccion</label>
                         <input
                         type="text"
                         className="form-control"
@@ -146,7 +146,7 @@ export default class Tutorial extends Component {
                             </div>
                             <div className="form-group">
                                 <label>
-                                    <strong>Status:</strong>
+                                    <strong>Estado:</strong>
                                 </label>
                                 {currentTutorial.published ? "Published" : "Pending"}
                             </div>
@@ -164,7 +164,7 @@ export default class Tutorial extends Component {
                                 class="btn btn-success"
                                 onClick={() => this.updatePublished(true)}
                             >
-                                Publish
+                                Publicar
                             </button>
                         )}
 
@@ -172,7 +172,7 @@ export default class Tutorial extends Component {
                             class="btn btn-danger"
                             onClick={this.deleteTutorial}
                         >
-                            Delete
+                            Eliminar
                         </button>
 
                         <button
@@ -180,7 +180,7 @@ export default class Tutorial extends Component {
                             class="btn btn-primary"
                             onClick={this.updateTutorial}
                         >
-                            Update
+                            actualizar
                         </button>
                         <p>{this.state.message}</p>
 

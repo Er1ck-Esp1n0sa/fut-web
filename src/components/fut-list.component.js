@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import HyperDataService from "../services/hyper.services";
-import Hyper from "./hyper.component";
+import FutDataService from "../services/fut.service";
+import Tutorial from './fut.component';
 
-export default class HyperList extends Component {
+export default class FutList extends Component {
     constructor(props) {
         super(props);
         this.refreshList = this.refreshList.bind(this);
@@ -19,7 +19,7 @@ export default class HyperList extends Component {
     }
 
     componentDidMount() {
-        this.unsubscribe = HyperDataService.getAll().orderBy("title", "asc").onSnapshot(this.onDataChange);
+        this.unsubscribe = FutDataService.getAll().orderBy("title", "asc").onSnapshot(this.onDataChange);
     }
 
     componentWillUnmount() {
@@ -69,7 +69,7 @@ export default class HyperList extends Component {
         return (
             <div className="list-row">
                 <div className="col-md-6 bg-dark mx-auto">
-                    <h4>Lista de Hypercars</h4>
+                    <h4>Lista de Fotos</h4>
 
                     <ul className="list-group">
                         {tutorials &&
@@ -86,14 +86,14 @@ export default class HyperList extends Component {
                 </div>
                 <div className="col-md-6 bg-dark mx-auto" >
                     {currentTutorial ? (
-                        <Hyper
+                        <Tutorial
                             tutorial={currentTutorial}
                             refreshList={this.refreshList}
                         />
                     ) : (
                         <div>
                             <br />
-                            <p>Please click on a Hypercar...</p>
+                            <p>Selecciona un Titulo</p>
                         </div>
                     )}
                 </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../Reactions.css';
+
 
 function Reactions() {
     const [likes, setLikes] = useState(0);
