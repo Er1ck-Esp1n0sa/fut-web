@@ -17,6 +17,21 @@ spec:
       - name: {model_name_test}-container
         #image: gcr.io/tensorflow-serving/resnet 
         image: docker.io/{docker_user}/{model_name_test}:{github.sha}
+  name: {model_name}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {model_name}-server
+  replicas: {replic_produccion}
+  template:
+    metadata:
+      labels:
+        app: {model_name}-server
+    spec:
+      containers:
+      - name: {model_name}-container
+        #image: gcr.io/tensorflow-serving/resnet 
+        image: docker.io/{docker_user}/{model_name}:{github.sha}
         ports:
         - containerPort: 80
 ---
@@ -26,10 +41,13 @@ metadata:
   labels:
     run: {model_name_test}-service
   name: {model_name_test}-service
+    run: {model_name}-service
+  name: {model_name}-service
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
     app: {model_name_test}-server
+    app: {model_name}-server
   type: LoadBalancer
