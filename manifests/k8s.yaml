@@ -6,17 +6,17 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: {model_names}-server
+      app: {model_names_test}-server
   replicas: {replic_release}
   template:
     metadata:
       labels:
-        app: {model_names}-server
+        app: {model_names_test}-server
     spec:
       containers:
-      - name: {model_names}-container
+      - name: {model_names_test}-container
         #image: gcr.io/tensorflow-serving/resnet 
-        image: docker.io/{docker_user}/{model_names}:{github.sha}
+        image: docker.io/{docker_user}/{model_names_test}:{github.sha}
         ports:
         - containerPort: 80
 ---
@@ -24,12 +24,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    run: {model_names}-service
-  name: {model_names}-service
+    run: {model_names_test}-service
+  name: {model_names_test}-service
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: {model_names}-server
+    app: {model_names_test}-server
   type: LoadBalancer
