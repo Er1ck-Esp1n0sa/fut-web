@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import FutDataService from "../services/fut.service";
+import Reactions from './reactions.component';
+import CommentBox from './comments.component'
 
 export default class Tutorial extends Component {
     constructor(props) {
@@ -15,6 +17,7 @@ export default class Tutorial extends Component {
                 id: null,
                 title: "",
                 description: "",
+                image: "",
                 published: false,
             },
         message: "",
@@ -29,6 +32,7 @@ export default class Tutorial extends Component {
                 message: ""
             };
         }
+
         return prevState.currentTutorial;
     }
     
@@ -40,6 +44,7 @@ export default class Tutorial extends Component {
     
     onChangeTitle(e) {
         const title = e.target.value;
+
         this.setState(function (prevState) {
             return {
                 currentTutorial: {
@@ -52,6 +57,7 @@ export default class Tutorial extends Component {
 
     onChangeDescription(e) {
         const description = e.target.value;
+
         this.setState((prevState) => ({
             currentTutorial: {
                 ...prevState.currentTutorial,
@@ -87,7 +93,7 @@ export default class Tutorial extends Component {
         FutDataService.update(this.state.currentTutorial.id, data)
         .then(() => {
             this.setState({
-                message: "The tutorial was updated successfully!",
+                message: "The File was updated successfully!",
             });
         })
         .catch((e) => {
@@ -107,14 +113,15 @@ export default class Tutorial extends Component {
     
     render() { 
         const { currentTutorial } = this.state;
+
         return (
         <div>
-            <h4>Tutorial</h4>
+            <h4>-------------------------------------------------------</h4>
             {currentTutorial ? (
             <div className="edit-form">
                 <form>
                     <div className="form-group">
-                        <label htmlFor="title">Title</label>
+                        <label htmlFor="title">Titulo</label>
                         <input
                         type="text"
                         className="form-control"
@@ -124,7 +131,7 @@ export default class Tutorial extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="description">Description</label>
+                        <label htmlFor="description">Descriccion</label>
                         <input
                         type="text"
                         className="form-control"
@@ -134,37 +141,59 @@ export default class Tutorial extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <label>
-                            <strong>Status:</strong>
-                        </label>
-                        {currentTutorial.published ? "Published" : "Pending"}
-                    </div>
-                </form>
-                {currentTutorial.published ? (
-                <button className="badge badge-primary mr-2" onClick={() => this.updatePublished(false)}>
-                    UnPublish
-                </button>
-            ) : (
-                <button className="badge badge-primary mr-2" onClick={() => this.updatePublished(true)}>
-                Publish
-                </button>
-            )}
-            <button className="badge badge-danger mr-2" onClick={this.deleteTutorial}>
-                Delete
-            </button>
+                    <label htmlFor="url"> Imagen: </label>
+                                <img src={currentTutorial.url} alt="Pic" width="540" height="280"></img>
+                            </div>
+                            <div className="form-group">
+                                <label>
+                                    <strong>Estado:</strong>
+                                </label>
+                                {currentTutorial.published ? "Published" : "Pending"}
+                            </div>
+                        </form>
 
-            <button type="submit" className="badge badge-success" onClick={this.updateTutorial}>
-                Update
-            </button>
-            <p>{this.state.message}</p>
+                        {currentTutorial.published ? (
+                            <button
+                                class="btn btn-outline-secondary"
+                                onClick={() => this.updatePublished(false)}
+                            >
+                                UnPublish
+                            </button>
+                        ) : (
+                            <button
+                                class="btn btn-success"
+                                onClick={() => this.updatePublished(true)}
+                            >
+                                Publicar
+                            </button>
+                        )}
+
+                        <button
+                            class="btn btn-danger"
+                            onClick={this.deleteTutorial}
+                        >
+                            Eliminar
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            onClick={this.updateTutorial}
+                        >
+                            actualizar
+                        </button>
+                        <p>{this.state.message}</p>
+
+                        <Reactions />
+                        <CommentBox />
+                    </div>
+                ) : (
+                    <div>
+                        <br />
+                        <p>Please click on a file...</p>
+                    </div>
+                )}
             </div>
-            ) : (
-            <div>
-                <br />
-                <p>Please click on a Tutorial...</p>
-            </div>
-            )}
-        </div>
-        );   
+        );
     }
 }
