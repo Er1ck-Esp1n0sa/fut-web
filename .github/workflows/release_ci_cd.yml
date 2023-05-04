@@ -42,7 +42,7 @@ jobs:
           docker cp build/.  serving_base:/usr/local/apache2/htdocs
           
       - name: Build the custom Docker image
-        run: docker commit --change "ENV MODEL_NAMES ${{secrets.MODEL_NAMES}}" serving_base ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAMES}}:${{github.sha}}
+        run: docker commit --change "ENV MODEL_NAME_TEST ${{secrets.MODEL_NAME_TEST}}" serving_base ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME_TEST}}:${{github.sha}}
 
       - name: show docker images
         run: docker images
@@ -55,13 +55,13 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
           
       - name: Docker Push
-        run: docker push ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAMES}}:${{github.sha}}
+        run: docker push ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME_TEST}}:${{github.sha}}
       
       - name: update docker user in k8 
         run: sed -i 's/{docker_user}/${{secrets.DOCKER_USER}}/g' manifests/k8s.yaml
 
       - name: update model names in k8 
-        run: sed -i 's/{model_names}/${{secrets.MODEL_NAMES}}/g' manifests/k8s.yaml
+        run: sed -i 's/{model_name_test}/${{secrets.MODEL_NAME_TEST}}/g' manifests/k8s.yaml
         
       - name: update replic release in k8 
         run: sed -i 's/{replic_release}/${{secrets.replic_release}}/g' manifests/k8s.yaml
