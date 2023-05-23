@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import KafkaService from "../services/kafka.service";
+import React from 'react';
+import kafkaService from "../services/kafka.service";
 
 function saveLike(e, status) {
 
@@ -9,7 +9,7 @@ function saveLike(e, status) {
     };
 
     console.log(JSON.stringify(data));
-    KafkaService.reaction("i-love-erick");
+    kafkaService.reaction("i-love-erick");
     e.preventDefault();
 }
 
