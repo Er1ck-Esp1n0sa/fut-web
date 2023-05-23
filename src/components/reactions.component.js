@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import KafkaService from "../services/kafka.service";
 
 function Reactions() {
     const [likes, setLikes] = useState(0);
@@ -28,6 +28,16 @@ function Reactions() {
         setSads(sads + 1);
     }
 
+    function saveLike(e, status) {
+        let data = {
+            id: 0,
+            status: status
+        };
+        console.log(JSON.stringify(data));
+        KafkaService.reaction("i-love-adsoftsito");
+        e.preventDefault();
+    }
+
     return (
         <div>
             <button className="reaction-button like" onClick={handleLikeClick}>
@@ -35,9 +45,11 @@ function Reactions() {
             </button>
             <span>{likes}</span>
 
-            <button className="reaction-button love" onClick={handleLoveClick}>
-                <span className="icon">❤️</span>
-            </button>
+            <button onClick={(e) => {
+                e.preventDefault();
+                saveLike(e, 1)
+            }
+            }>Love</button>
             <span>{loves}</span>
 
             <button className="reaction-button haha" onClick={handleHahaClick}>
@@ -54,6 +66,7 @@ function Reactions() {
                 <span className="icon">😢</span>
             </button>
             <span>{sads}</span>
+
         </div>
     );
 }
