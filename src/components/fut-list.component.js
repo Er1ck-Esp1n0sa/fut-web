@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FutDataService from "../services/fut.service";
+import futDataService from "../services/fut.service";
 import Tutorial from './fut.component';
 
 export default class FutList extends Component {
@@ -19,7 +19,7 @@ export default class FutList extends Component {
     }
 
     componentDidMount() {
-        this.unsubscribe = FutDataService.getAll().orderBy("title", "asc").onSnapshot(this.onDataChange);
+        this.unsubscribe = futDataService.getAll().orderBy("title", "asc").onSnapshot(this.onDataChange);
     }
 
     componentWillUnmount() {
