@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FutDataService from "../services/fut.service";
+import futDataServicde from "../services/fut.service";
 import Reactions from './reactions.component';
 import CommentBox from './comments.component'
 
@@ -67,7 +67,7 @@ export default class Tutorial extends Component {
     }
 
     updatePublished(status) {
-        FutDataService.update(this.state.currentTutorial.id, {
+        futDataServicde.update(this.state.currentTutorial.id, {
             published: status,
         })
         .then(() => {
@@ -90,7 +90,7 @@ export default class Tutorial extends Component {
             description: this.state.currentTutorial.description,
         };
 
-        FutDataService.update(this.state.currentTutorial.id, data)
+        futDataServicde.update(this.state.currentTutorial.id, data)
         .then(() => {
             this.setState({
                 message: "The File was updated successfully!",
@@ -102,7 +102,7 @@ export default class Tutorial extends Component {
     }
 
     deleteTutorial() {
-        FutDataService.delete(this.state.currentTutorial.id)
+        futDataServicde.delete(this.state.currentTutorial.id)
         .then(() => {
             this.props.refreshList();
         })
