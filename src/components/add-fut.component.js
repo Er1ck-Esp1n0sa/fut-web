@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import firebase from "firebase/compat/app";
-import futsDataService from "../services/fut.service";
+import TutorialDataService from "../services/fut.service"
 import "firebase/compat/storage";
 
 export const storage = firebase.storage();
@@ -77,7 +77,7 @@ export default class AddTutorial extends Component {
             url: this.state.url,
         };
 
-        futsDataService.create(data, name)
+        TutorialDataService.create(data, name)
             .then(() => {
                 console.log("Created new item successfully!");
                 this.setState({

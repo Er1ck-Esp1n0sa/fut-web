@@ -17,8 +17,8 @@ class FutDataService {
 
     delete(id) {
     return db.doc(id).delete();
+    
     }
 }
 
-const futDataService = new FutDataService();
-export default futDataService;
+export default new FutDataService();

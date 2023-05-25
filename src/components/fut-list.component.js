@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import futDataService from "../services/fut.service";
-import Tutorial from './fut.component';
+import FutDataService from "../services/fut.service";
+import Futbol from "./fut.component";
+import Reactions from "./reactions.component";
+import CommentBox from "./comments.component";
 
-export default class FutList extends Component {
+export default class HyperList extends Component {
     constructor(props) {
         super(props);
         this.refreshList = this.refreshList.bind(this);
@@ -19,7 +21,7 @@ export default class FutList extends Component {
     }
 
     componentDidMount() {
-        this.unsubscribe = futDataService.getAll().orderBy("title", "asc").onSnapshot(this.onDataChange);
+        this.unsubscribe = FutDataService.getAll().orderBy("title", "asc").onSnapshot(this.onDataChange);
     }
 
     componentWillUnmount() {
@@ -69,7 +71,7 @@ export default class FutList extends Component {
         return (
             <div className="list-row">
                 <div className="col-md-6 bg-dark mx-auto">
-                    <h4>Lista de Fotos</h4>
+                    <h4>Lista de Hypercars</h4>
 
                     <ul className="list-group">
                         {tutorials &&
@@ -80,20 +82,32 @@ export default class FutList extends Component {
                                     key={index}
                                 >
                                     {tutorial.title}
+                                    <tr>
+                                        {tutorial.description}
+                                    </tr>
+                                    <img src={tutorial.url} width="540" height="280" alt=""/>
+                                    <tr>
+                                        <Reactions></Reactions>
+                                    </tr>
+                                    <tr>
+                                        <CommentBox></CommentBox>
+                                    </tr>
+
+
                                 </li>
                             ))}
                     </ul>
                 </div>
                 <div className="col-md-6 bg-dark mx-auto" >
                     {currentTutorial ? (
-                        <Tutorial
+                        <Futbol
                             tutorial={currentTutorial}
                             refreshList={this.refreshList}
                         />
                     ) : (
                         <div>
                             <br />
-                            <p>Selecciona un Titulo</p>
+                            <p>Please click on a Hypercar...</p>
                         </div>
                     )}
                 </div>
