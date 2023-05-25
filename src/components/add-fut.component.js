@@ -45,6 +45,7 @@ export default class AddTutorial extends Component {
                 .getDownloadURL()
                 .then((myurl) =>  { 
                     this.setState({ url: myurl });
+                    this.setState.url=myurl;
                 });    
         });
     }
