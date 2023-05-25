@@ -21,4 +21,5 @@ class FutDataService {
     }
 }
 
-export default new FutDataService();
+const instancia = new FutDataService();
+export default instancia;
