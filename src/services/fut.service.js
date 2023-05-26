@@ -22,4 +22,3 @@ class FutDataService {
 
 const futDataService = new FutDataService();
 export default futDataService;
-export default futDataService;
