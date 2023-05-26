@@ -18,5 +18,6 @@ class KafkaService {
 }
 
 }
+
 const kafkaService = new KafkaService();
 export default kafkaService;
