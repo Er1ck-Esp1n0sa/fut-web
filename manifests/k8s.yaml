@@ -16,7 +16,10 @@ spec:
       containers:
       - name: {model_name_test}-container
         #image: gcr.io/tensorflow-serving/resnet 
-        image: docker.io/{docker_user}/{model_name_test}
+        image: docker.io
+        docker_user: "{docker_user}"
+        model_name_test: "{model_name_test}"
+        github_sha: "{github.sha}"
   name: {model_name}-deployment
 spec:
   selector:
