@@ -22,4 +22,4 @@ class FutDataService {
 }
 
 const instancia = new FutDataService();
-//export default instancia;
+export default instancia;
