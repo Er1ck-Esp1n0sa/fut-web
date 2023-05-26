@@ -1,11 +1,11 @@
-name: release CI, CD workflow 
+ame: release CI, CD workflow 
 on: 
   push:
     branches: [ "release"]
   pull_request:
     branches: [ "release"]
 jobs:
-  master_ci_cd:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,9 +15,9 @@ jobs:
           node-version: 16.x
       - name: npm install
         run: npm install
-      #- name: Test
-        #run: |
-          #npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+#      - name: Test
+#        run: |
+#          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: make .env 
         uses: SpicyPizza/create-envfile@v1.3
         with:
@@ -25,7 +25,7 @@ jobs:
           file_name: .env
           fail_on_empty: false
           
-      - name: build angular, output in dist/openai
+      - name: build react, output in build
         run: |
           npm run build
       
@@ -37,7 +37,7 @@ jobs:
         run: |
           docker run -d --name serving_base httpd
           
-      - name: cp angular build to container
+      - name: cp react build to container
         run: |
           docker cp build/.  serving_base:/usr/local/apache2/htdocs
           
@@ -58,22 +58,22 @@ jobs:
         run: docker push ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME_TEST}}:${{github.sha}}
       
       - name: update docker user in k8 
-        run: sed -i 's/{docker_user}/${{secrets.DOCKER_USER}}/g' manifests/k8s.yaml
+        run: sed -i 's/{docker_user}/${{secrets.DOCKER_USER}}/g' manifests/k8s_release.yaml
 
-      - name: update model names in k8 
-        run: sed -i 's/{model_name_test}/${{secrets.MODEL_NAME_TEST}}/g' manifests/k8s.yaml
+      - name: update model name in k8 
+        run: sed -i 's/{model_name_test}/${{secrets.MODEL_NAME_TEST}}/g' manifests/k8s_release.yaml
         
-      - name: update replic release in k8 
-        run: sed -i 's/{replic_release}/${{secrets.replic_release}}/g' manifests/k8s.yaml
+      - name: update model nodo in k8 
+        run: sed -i 's/{nodo}/${{secrets.NODO}}/g' manifests/k8s_release.yaml
 
       - name: update _ by - 
-        run: sed -i 's/_/-/g' manifests/k8s.yaml
+        run: sed -i 's/_/-/g' manifests/k8s_release.yaml
 
       - name: update sha in k8
-        run: sed -i 's/{github.sha}/${{github.sha}}/g' manifests/k8s.yaml
+        run: sed -i 's/{github.sha}/${{github.sha}}/g' manifests/k8s_release.yaml
 
       - name: ls -la 
-        run: cat manifests/k8s.yaml
+        run: cat manifests/k8s_release.yaml
       - uses: okteto/context@2.7.0
         with:
           token: ${{secrets.OKTETO_TOKEN }}
@@ -84,5 +84,5 @@ jobs:
           KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}
         with:
           namespace: ${{secrets.OKTETO_NAMESPACE }}
-          manifest: manifests/k8s.yaml
+          manifest: manifests/k8s_release.yaml
           tag: ${{ secrets.DOCKER_USERNAME }}/${{secrets.MODEL_NAME_TEST}}:${{github.sha}}
