@@ -109,3 +109,9 @@ h2{
 body{
   background-image: url("img/img3.png");
 }
+
+.contenedor{
+  background-color: #077c20;
+  text-align: center;
+  color: #cbd8cc;
+}
