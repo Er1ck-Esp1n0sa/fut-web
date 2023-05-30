@@ -1,11 +1,13 @@
+
 name: master CI, CD workflow 
+
 on: 
   push:
     branches: [ "master"]
   pull_request:
     branches: [ "master"]
 jobs:
-  master_ci_cd:
+  release_ci_cd:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,11 +15,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-      - name: npm install
+      - name: nmp install
         run: npm install
-      #- name: Test
-        #run: |
-          #npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+#      - name: Test
+#        run: |
+#          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: make .env 
         uses: SpicyPizza/create-envfile@v1.3
         with:
@@ -61,11 +63,10 @@ jobs:
         run: sed -i 's/{docker_user}/${{secrets.DOCKER_USER}}/g' manifests/k8s.yaml
 
       - name: update model name in k8 
-        run: sed -i 's/{model_name}/${{secrets.MODEL_NAME}}/g' manifests/k8s.yaml
-        
-      - name: update replic produccion in k8 
-        run: sed -i 's/{replic_produccion}/${{secrets.replic_produccion}}/g' manifests/k8s.yaml
 
+        run: sed -i 's/{model_name}/${{secrets.MODEL_NAME}}/g' manifests/k8s.yaml
+      - name: update model nodo in k8 
+        run: sed -i 's/{nodo}/${{secrets.NODO}}/g' manifests/k8s.yaml
       - name: update _ by - 
         run: sed -i 's/_/-/g' manifests/k8s.yaml
 
@@ -86,3 +87,10 @@ jobs:
           namespace: ${{secrets.OKTETO_NAMESPACE }}
           manifest: manifests/k8s.yaml
           tag: ${{ secrets.DOCKER_USERNAME }}/${{secrets.MODEL_NAME}}:${{github.sha}}
+          
+          
+          
+          
+#To-do list: Update data of accounts if it's neccesary
+          
+      
