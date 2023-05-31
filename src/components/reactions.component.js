@@ -1,5 +1,5 @@
 import '../styles/reactions.css'
-import React, { Component,useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import KafkaService from "../services/kafka.service";
 import axios from 'axios';
 
