@@ -1,49 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "../styles/clip.css";
+import KafkaService from "../services/kafka.service";
+import axios from 'axios';
 
-const CommentBox = () => {
-    const [comments, setComments] = useState([]);
-    const [newComment, setNewComment] = useState("");
-    const [showForm, setShowForm] = useState(false);
+const CommentBox = ({id}) => {
+    const [comentarios, setComentarios] = useState([]);
+    const [commentText, setCommentText] = useState([]);
+    const uri = "https://api-mongo-service-er1ck-esp1n0sa.cloud.okteto.net/api/comments"
 
-    const handleNewComment = (event) => {
-        setNewComment(event.target.value);
-    };
+    useEffect(() => {
+        fetchComments();
+    }, );
 
-    const handleAddComment = () => {
-        if (newComment !== "") {
-            const newCommentObj = {
-                text: newComment
-            };
-            setComments([...comments, newCommentObj]);
-            setNewComment("");
-            setShowForm(false);
+    const fetchComments = async (r) => {
+        try {
+            const response = await axios.get(`${uri}/${id}`);
+            const comentarios = response.data ? response.data : [];
+            
+            setComentarios(comentarios);
+        } catch (error) {
+            console.log('Error al obtener los comentarios:', error);
         }
     };
 
+    const comment = (e, status) => {
+        const user = localStorage.getItem('user');
+        const data = {
+            userId: user,
+            objectId: id,
+            comment: commentText
+        };
+    
+        console.log(JSON.stringify(data));
+        KafkaService.commentPush(data);
+        e.preventDefault();
+    };
+
     return (
-        <div className="comment-box">
-            <div className="comments">
-                {comments.map((comment, index) => (
-                    <div className="comment" key={index}>
-                        <p className="comment-text">{comment.text}</p>
-                    </div>
-                ))}
+        <div className="comments-section"> 
+        <h4>Comments</h4>
+        <div className="form-group">
+            <label htmlFor="comment-input">Leave a comment:</label>
+            <textarea
+            id="comment-input"
+            name="comment"
+            rows="4"
+            placeholder="Write your comment here..."
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            ></textarea>
             </div>
-            {showForm ? (
-                <div className="comment-form">
-                    <textarea
-                        value={newComment}
-                        onChange={handleNewComment}
-                        placeholder="Add a comment..."
-                    />
-                    <button onClick={handleAddComment}>Post</button>
-                    <button onClick={() => setShowForm(false)}>Cancel</button>
+            <button type="button" onClick={comment}>
+            Comentar
+            </button>
+            <div className="comments-list">
+            {comentarios.map((comentario) => (
+            <div className="comment" key={comentario._id}>
+                <h5>{comentario.userId}</h5>
+                <p>{comentario.comment}</p>
                 </div>
-            ) : (
-                <button class="btn btn-primary" onClick={() => setShowForm(true)}>Añadir comentario</button>
-            )}
+            ))}
+            </div>
         </div>
-    );
-};
+        );
+    };
 
 export default CommentBox;

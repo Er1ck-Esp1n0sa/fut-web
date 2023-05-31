@@ -71,7 +71,7 @@ export default class HyperList extends Component {
         return (
             <div className="list-row">
                 <div className="col-md-6 bg-dark mx-auto">
-                    <h4>Lista de Hypercars</h4>
+                    <h4>Soccer List</h4>
 
                     <ul className="list-group">
                         {tutorials &&
@@ -87,7 +87,8 @@ export default class HyperList extends Component {
                                     </tr>
                                     <img src={tutorial.url} width="540" height="280" alt=""/>
                                     <tr>
-                                        <Reactions></Reactions>
+                                        <Reactions 
+                                        id={tutorial.id}/>
                                     </tr>
                                     <tr>
                                         <CommentBox></CommentBox>
@@ -107,7 +108,6 @@ export default class HyperList extends Component {
                     ) : (
                         <div>
                             <br />
-                            <p>Please click on a Hypercar...</p>
                         </div>
                     )}
                 </div>

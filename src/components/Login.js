@@ -19,7 +19,7 @@ function Login() {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-
+        localStorage.setItem("user", user.displayName);
         console.info(token);
         console.info(user);
 

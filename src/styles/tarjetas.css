@@ -1,0 +1,57 @@
+.contenedorDeMiniatura {
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 100px 50px;
+}
+
+.miniatura {
+  width: 30%; /* para mostrar 3 tarjetas por fila */
+  margin-bottom: 10px; /* ajusta el valor de acuerdo a tus neces60idades */
+  margin-right: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  /* para pantallas con un ancho mínimo de 768px */
+  .miniatura {
+    width: 25%; /* para mostrar 4 tarjetas por fila */
+  }
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0);
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: 20px rgba(0, 0, 0);
+  transform: translateY(-5px);
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 75%; /* relación de aspecto de 16:9 */
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title {
+  margin-top: 10px; /* ajusta el valor de acuerdo a tus necesidades */
+  font-size: 18px; /* ajusta el valor de acuerdo a tus necesidades */
+  font-weight: bold;
+  color: white;
+  border-color: black;
+  border-width: 5px;
+}

@@ -1,0 +1,43 @@
+body{
+  background-image: url("../images/1003880.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  overflow-y: hidden;
+  backdrop-filter: blur(5px);
+}
+
+li a{
+  color: #c6b5aa;
+  text-decoration: none;
+}
+
+nav {
+  width: 80%;
+  margin: auto;
+  position: relative;
+  top: 15px;
+  background-color: #282828;
+  border-radius: 20px;
+  margin-bottom: 50px;
+  border: none;
+  box-shadow: 0 0 20px rgb(0, 0, 0);
+}
+
+nav ul{
+  padding: 25px;
+  display: flex;
+  list-style: none;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+nav ul li a{
+  text-decoration: none;
+  color: white;
+  transition: all 0.6s;
+}
+
+.activate{
+  color: #dc5b51;
+}

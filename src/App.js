@@ -41,7 +41,7 @@ class App extends Component {
             <Route path="/" element={<Login/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route exact path="/home" element={<FutList />} />
-            <Route exact path="/addimage" element={<AddFut />} />
+            <Route exact path="/add" element={<AddFut />} />
           </Routes>
         </div>
       </div>
