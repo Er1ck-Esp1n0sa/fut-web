@@ -14,7 +14,7 @@ const Reactions = ({ id }) => {
     
     useEffect(() => {
         fetchReactions();
-    }, []);
+    }, );
 
     const fetchReactions = async (r) => {
         try {
