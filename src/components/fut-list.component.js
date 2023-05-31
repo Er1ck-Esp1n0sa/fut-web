@@ -4,7 +4,7 @@ import Futbol from "./fut.component";
 import Reactions from "./reactions.component";
 import CommentBox from "./comments.component";
 
-export default class HyperList extends Component {
+export default class FutList extends Component {
     constructor(props) {
         super(props);
         this.refreshList = this.refreshList.bind(this);
